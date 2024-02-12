@@ -29,7 +29,12 @@ from functools import partial
 import copy
 import torch.distributed as dist
 
-with open('./EgoNCE_MLM_ITM_Config.yml') as f:
+import pathlib
+import os
+
+config_path = pathlib.Path(__file__).parent.parent.resolve()
+
+with open(os.path.join(config_path, './EgoNCE_MLM_ITM_Config.yml')) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
 def init_weights(module):
@@ -77,7 +82,7 @@ class FrozenInTime(BaseModel):
             arch_config = 'base_patch16_224'
             vit_init = 'imagenet-21k'
             if arch_config == 'base_patch16_224':
-                vit_model = torch.load("/cis/home/shraman/works_meta_2022/pre-training/EgoVLP_Fused_HardNegITM_Checkpoint_multinode/frozen-in-time-main/pretrained/jx_vit_base_p16_224-80ecf9dd.pth", map_location="cpu")
+                vit_model = torch.load("pretrained/jx_vit_base_p16_224-80ecf9dd.pth", map_location="cpu")
                 model = SpaceTimeTransformer(num_frames=self.num_frames,
                                             time_init=time_init,
                                             attention_style=attention_style)

@@ -26,7 +26,12 @@ from einops import rearrange, repeat
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from torch import einsum, nn
 
-with open('./EgoNCE_MLM_ITM_Config.yml') as f:
+import pathlib
+import os
+
+config_path = pathlib.Path(__file__).parent.parent.resolve()
+
+with open(os.path.join(config_path, './EgoNCE_MLM_ITM_Config.yml')) as f:
     config_yaml = yaml.load(f, Loader=yaml.FullLoader)
 
 NUM_FUSE_BLOCK = config_yaml['num_fuse_block']
